@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WhenWeather</string>
+    <string name="title_activity_main_screen">mainScreen</string>
+    <string name="title_snow">Snow</string>
+    <string name="title_rain">Rain</string>
+    <string name="title_storm">Storm</string>
+</resources>
