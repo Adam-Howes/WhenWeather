@@ -26,7 +26,7 @@ class SplashScreen : AppCompatActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            startActivity(Intent(this@SplashScreen, MainScreen::class.java))
+            startActivity(Intent(this@SplashScreen, MainActivity::class.java))
         }
 
 
@@ -79,7 +79,7 @@ class SplashScreen : AppCompatActivity() {
             MY_PERMISSIONS_READ_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    startActivity(Intent(this@SplashScreen, MainScreen::class.java))
+                    startActivity(Intent(this@SplashScreen, MainActivity::class.java))
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                 } else {
