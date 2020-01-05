@@ -10,4 +10,5 @@ class SnowViewModel : ViewModel() {
         value = "This is snow Fragment"
     }
     val text: LiveData<String> = _text
+
 }

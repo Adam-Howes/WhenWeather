@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_snow">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_snow"
         android:name="com.example.whenweather.ui.snow.SnowFragment"
         android:label="@string/title_snow"
         tools:layout="@layout/fragment_snow" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_rain"
         android:name="com.example.whenweather.ui.rain.RainFragment"
         android:label="@string/title_rain"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_storm"
         android:name="com.example.whenweather.ui.storm.StormFragment"
         android:label="@string/title_storm"
         tools:layout="@layout/fragment_notifications" />
