@@ -4,4 +4,10 @@
     <string name="title_snow">Snow</string>
     <string name="title_rain">Rain</string>
     <string name="title_storm">Storm</string>
+    <string name="weather_percentage_text_view">Chance of </string>
+    <string name="temperature_text_view">Temperature: </string>
+    <string name="wind_text_view">Wind: </string>
+    <string name="precipitation_text_view">Precipitation: </string>
+    <string name="humidity_text_view">Humidity: </string>
+    <string name="pressure_text_view">Pressure: </string>
 </resources>
