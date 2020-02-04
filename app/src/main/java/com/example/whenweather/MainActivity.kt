@@ -20,10 +20,11 @@ import kotlinx.android.synthetic.main.fragment_snow.*
 import org.json.JSONObject
 import java.net.URL
 
+
 class MainActivity : AppCompatActivity() {
 
     // Location Services
-    lateinit var locationManager: LocationManager
+    private lateinit var locationManager: LocationManager
     private var hasGps = false
     private var hasNetwork = false
     private var locationGps: Location? = null
@@ -34,8 +35,7 @@ class MainActivity : AppCompatActivity() {
     var lon: String = ""
 
     // API key for Open Weather Map
-    private val API: String = "e9d23847eaa8bbf92bdc4b7da10d59b0"
-
+    val api: String = "e9d23847eaa8bbf92bdc4b7da10d59b0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         getLocation()
+
+        // TODO: Fix issue where api doesn't run if location permissions are asked for.
         weatherTask().execute()
     }
 
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
             try {
                 response =
-                    URL("https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&appid=$API").readText(
+                    URL("https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&appid=$api").readText(
                         Charsets.UTF_8
                     )
             } catch (e: Exception) {
@@ -78,26 +80,28 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
+            // TODO: Get working after fragment transitions
             try {
                 /* JSON extraction from API */
                 val jsonObj = JSONObject(result)
                 val main = jsonObj.getJSONObject("main")
-                val sys = jsonObj.getJSONObject("sys")
                 val wind = jsonObj.getJSONObject("wind")
                 val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
 
-                //val precipitation = main.getString("precipitation")
+                val currentWeather = weather.getString("description")
                 val pressure = main.getString("pressure")
                 val humidity = main.getString("humidity")
-                val windSpeed = wind.getString("speed")
+                val windSpeed =
+                    wind.getString("speed") + "kph " + bearingToHeading(wind.getInt("deg"))
                 val temp = main.getString("temp") + "°C"
 
                 // Put data from JSON to text views
+                current_weather_text_view.append(currentWeather)
                 wind_snow_text_view.append(windSpeed)
                 humidity_snow_text_view.append(humidity)
                 pressure_snow_text_view.append(pressure)
                 temperature_snow_text_view.append(temp)
-                //precipitation_snow_text_view.append(precipitation)
+
             } catch (e: java.lang.Exception) {
             }
         }
@@ -220,5 +224,31 @@ class MainActivity : AppCompatActivity() {
         } else {
             startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         }
+    }
+
+    // Minimises app
+    override fun onBackPressed() {
+        val startMain = Intent(Intent.ACTION_MAIN)
+        startMain.addCategory(Intent.CATEGORY_HOME)
+        startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(startMain)
+    }
+
+    // Input compass degrees, returns string heading
+    // API already has this feature, Redundant?
+    fun bearingToHeading(bearing: Int): String {
+        var heading = ""
+        when (bearing) {
+            in 337..360 -> heading = "North"
+            in 0..23 -> heading = "North"
+            in 24..68 -> heading = "North-East"
+            in 69..113 -> heading = "East"
+            in 114..158 -> heading = "South-East"
+            in 159..203 -> heading = "South"
+            in 204..248 -> heading = "South-West"
+            in 249..293 -> heading = "West"
+            in 294..336 -> heading = "North-West"
+        }
+        return heading
     }
 }
